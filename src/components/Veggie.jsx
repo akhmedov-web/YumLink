@@ -11,39 +11,33 @@ export default function Veggie() {
   const [veggie, setVeggie] = useState([])
 
   const getVeggie = async () => {
-    const check = localStorage.getItem("veggie");
-    if (check) {
-      setVeggie(JSON.parse(check))
-    } else {
-      const api = await fetch(`https://api.spoonacular.com/recipes/random?apiKey=cd5dcaa06bee4d389cb14692b51c7ff7&number=9&tags=vegetarian`);
-      const data = await api.json();
-      localStorage.setItem("veggie", JSON.stringify(data.recipes))
-      setPopular(data.recipes)
-    }
+    const api = await fetch(`https://api.spoonacular.com/recipes/random?apiKey=cd5dcaa06bee4d389cb14692b51c7ff7&number=9&tags=vegetarian`);
+    const data = await api.json();
+    setVeggie(data.recipes)
   }
 
 
   return (
     <Wrapper>
       <h3>Our veggie picks</h3>
-      <Splide options={{ 
-        perPage: 3, 
-        arrows: true, 
-        pagination: false, 
-        drag: 'free', 
+      <Splide options={{
+        perPage: 3,
+        arrows: true,
+        pagination: false,
+        drag: 'free',
         gap: '4rem',
         autoplay: true,
-        interval:2000,
-        breakpoints:{
-          600:{
-            perPage:1,
+        interval: 2000,
+        breakpoints: {
+          600: {
+            perPage: 1,
           }
         }
-        }}>
+      }}>
         {veggie.map(recipe =>
           <SplideSlide key={recipe.id}>
             <Card>
-              <Link to={"/details/"+recipe.id}>
+              <Link to={"/details/" + recipe.id}>
                 <p>{recipe.title}</p>
                 <img src={recipe.image} alt={recipe.title} />
                 <Gradient />
